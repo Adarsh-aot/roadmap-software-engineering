@@ -25,7 +25,7 @@ const Login = () => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (username === "user" && password === "password") {
+    if (username === "roadmap" && password === "roadmap") {
       localStorage.setItem("isAuthenticated", "true");
       if (rememberMe) {
         localStorage.setItem("rememberedUser", username);
@@ -39,7 +39,7 @@ const Login = () => {
     } else {
       toast({
         title: "Error",
-        description: "Invalid credentials. Use username: user, password: password",
+        description: "Invalid credentials.",
         variant: "destructive",
         duration: 3000,
       });
