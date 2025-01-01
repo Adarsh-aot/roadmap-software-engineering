@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Separator } from "@/components/ui/separator";
 import { Plane } from "lucide-react";
 
 interface RoadmapSectionProps {
@@ -63,19 +64,24 @@ const RoadmapSection = ({
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {topic.items.map((item) => (
-              <div key={`${topic.id}-${item}`} className="flex items-start space-x-3">
-                <Checkbox
-                  id={`${topic.id}-${item}`}
-                  checked={progress[`${topic.id}-${item}`] || false}
-                  onCheckedChange={() => onCheckboxChange(topic.id, item)}
-                />
-                <label
-                  htmlFor={`${topic.id}-${item}`}
-                  className="text-sm leading-none text-muted-foreground cursor-pointer hover:text-foreground transition-colors"
-                >
-                  {item}
-                </label>
+            {topic.items.map((item, index) => (
+              <div key={`${topic.id}-${item}`}>
+                <div className="flex items-start space-x-3">
+                  <Checkbox
+                    id={`${topic.id}-${item}`}
+                    checked={progress[`${topic.id}-${item}`] || false}
+                    onCheckedChange={() => onCheckboxChange(topic.id, item)}
+                  />
+                  <label
+                    htmlFor={`${topic.id}-${item}`}
+                    className="text-sm leading-none text-muted-foreground cursor-pointer hover:text-foreground transition-colors"
+                  >
+                    {item}
+                  </label>
+                </div>
+                {index < topic.items.length - 1 && (
+                  <Separator className="my-4" />
+                )}
               </div>
             ))}
           </div>

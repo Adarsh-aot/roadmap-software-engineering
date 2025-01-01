@@ -3,14 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/components/ui/use-toast";
+import { ArrowLeft } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import RoadmapSection from "@/components/RoadmapSection";
 import ProgressBar from "@/components/ProgressBar";
-
-interface Topic {
-  id: string;
-  title: string;
-  items: string[];
-}
 
 const monthlyTopics: Topic[] = [
   {
@@ -72,6 +68,18 @@ const monthlyTopics: Topic[] = [
     ],
   },
 ];
+
+const capstoneProject = {
+  title: "Final Project (Weeks 23-24): Capstone Project",
+  description: `Develop and deploy a full-stack application with the following:
+  • Frontend hosted on S3
+  • Backend hosted on an EC2 instance or serverless function
+  • CI/CD pipeline with Jenkins and CodePipeline
+  • Configuration management with Ansible or Chef
+  • Infrastructure deployed with Terraform
+  
+  Outcome: Comprehensive understanding and integration of all tools learned.`,
+};
 
 const Roadmap = () => {
   const [progress, setProgress] = useState<Record<string, boolean>>({});
@@ -145,8 +153,17 @@ const Roadmap = () => {
   return (
     <div className="min-h-screen bg-background p-4">
       <div className="max-w-4xl mx-auto">
+        <Button 
+          variant="ghost" 
+          onClick={() => navigate(-1)}
+          className="mb-6"
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back
+        </Button>
+
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-foreground">Learning Roadmap</h1>
+          <h1 className="text-3xl font-bold text-foreground">DevOps Learning Roadmap</h1>
           <Button onClick={handleLogout} variant="outline">
             Logout
           </Button>
@@ -166,6 +183,19 @@ const Roadmap = () => {
                 isComplete={isMonthComplete(topic.id)}
               />
             ))}
+            
+            <Card className="bg-card mt-8">
+              <CardHeader>
+                <CardTitle className="text-xl text-card-foreground">
+                  {capstoneProject.title}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground whitespace-pre-line">
+                  {capstoneProject.description}
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </ScrollArea>
       </div>
