@@ -1,6 +1,25 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useState } from "react";
 
 const CapstoneProject = () => {
+  const [progress, setProgress] = useState<Record<string, boolean>>({});
+
+  const requirements = [
+    "Frontend hosted on S3",
+    "Backend hosted on an EC2 instance or serverless function",
+    "CI/CD pipeline with Jenkins and CodePipeline",
+    "Configuration management with Ansible or Chef",
+    "Infrastructure deployed with Terraform"
+  ];
+
+  const handleCheckboxChange = (requirement: string) => {
+    setProgress(prev => ({
+      ...prev,
+      [requirement]: !prev[requirement]
+    }));
+  };
+
   return (
     <Card className="bg-card mt-8 border-2 border-primary shadow-lg">
       <CardHeader className="bg-primary/10">
@@ -14,12 +33,22 @@ const CapstoneProject = () => {
           <p className="text-lg">
             Develop and deploy a full-stack application with the following components:
           </p>
-          <ul className="list-disc list-inside space-y-2 ml-4">
-            <li>Frontend hosted on S3</li>
-            <li>Backend hosted on an EC2 instance or serverless function</li>
-            <li>CI/CD pipeline with Jenkins and CodePipeline</li>
-            <li>Configuration management with Ansible or Chef</li>
-            <li>Infrastructure deployed with Terraform</li>
+          <ul className="space-y-4 ml-4">
+            {requirements.map((requirement) => (
+              <li key={requirement} className="flex items-start space-x-3">
+                <Checkbox
+                  id={requirement}
+                  checked={progress[requirement] || false}
+                  onCheckedChange={() => handleCheckboxChange(requirement)}
+                />
+                <label
+                  htmlFor={requirement}
+                  className="text-sm leading-none cursor-pointer hover:text-foreground transition-colors"
+                >
+                  {requirement}
+                </label>
+              </li>
+            ))}
           </ul>
           <div className="mt-6 p-4 bg-accent/20 rounded-lg">
             <p className="font-semibold text-accent-foreground">
