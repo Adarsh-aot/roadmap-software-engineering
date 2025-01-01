@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,18 +11,10 @@ const Login = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  useEffect(() => {
-    const storedAuth = localStorage.getItem("isAuthenticated");
-    if (storedAuth) {
-      navigate("/roadmap");
-    }
-  }, [navigate]);
-
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (username === "user" && password === "password") {
       localStorage.setItem("isAuthenticated", "true");
-      localStorage.setItem("username", username);
       navigate("/roadmap");
       toast({
         title: "Success",
@@ -43,7 +35,7 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl text-center">Welcome to DevOps Learning Path!</CardTitle>
+          <CardTitle className="text-2xl text-center">Welcome Back!</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
