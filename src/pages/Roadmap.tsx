@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/components/ui/use-toast";
-import { Plane } from "lucide-react";
+import RoadmapSection from "@/components/RoadmapSection";
+import ProgressBar from "@/components/ProgressBar";
 
 interface Topic {
   id: string;
@@ -86,13 +85,11 @@ const Roadmap = () => {
       navigate("/");
     }
 
-    // Load saved progress
     const savedProgress = localStorage.getItem("progress");
     if (savedProgress) {
       setProgress(JSON.parse(savedProgress));
     }
 
-    // Intersection Observer for scroll animations
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -155,63 +152,19 @@ const Roadmap = () => {
           </Button>
         </div>
 
-        <Card className="mb-6 bg-card">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <span className="text-lg font-medium text-card-foreground">Overall Progress</span>
-              <span className="text-2xl font-bold text-primary">{calculateProgress()}%</span>
-            </div>
-            <div className="w-full bg-secondary rounded-full h-2.5 mt-2">
-              <div
-                className="bg-primary h-2.5 rounded-full transition-all duration-500"
-                style={{ width: `${calculateProgress()}%` }}
-              ></div>
-            </div>
-          </CardContent>
-        </Card>
+        <ProgressBar progress={calculateProgress()} />
 
         <ScrollArea className="h-[calc(100vh-200px)]">
           <div className="space-y-6">
-            {monthlyTopics.map((month, index) => (
-              <div
-                key={month.id}
-                id={month.id}
-                className={`roadmap-section animate-on-scroll ${
-                  visibleSections.includes(month.id) ? "visible" : ""
-                }`}
-              >
-                <Card className="relative overflow-hidden bg-card">
-                  <CardHeader>
-                    <CardTitle className="text-xl text-card-foreground flex items-center gap-2">
-                      <Plane
-                        className={`w-6 h-6 ${
-                          isMonthComplete(month.id) ? "text-primary plane-animation" : "text-muted-foreground"
-                        }`}
-                      />
-                      {month.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      {month.items.map((item) => (
-                        <div key={`${month.id}-${item}`} className="flex items-start space-x-3">
-                          <Checkbox
-                            id={`${month.id}-${item}`}
-                            checked={progress[`${month.id}-${item}`] || false}
-                            onCheckedChange={() => handleCheckboxChange(month.id, item)}
-                          />
-                          <label
-                            htmlFor={`${month.id}-${item}`}
-                            className="text-sm leading-none text-muted-foreground cursor-pointer hover:text-foreground transition-colors"
-                          >
-                            {item}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
+            {monthlyTopics.map((topic) => (
+              <RoadmapSection
+                key={topic.id}
+                topic={topic}
+                progress={progress}
+                onCheckboxChange={handleCheckboxChange}
+                isVisible={visibleSections.includes(topic.id)}
+                isComplete={isMonthComplete(topic.id)}
+              />
             ))}
           </div>
         </ScrollArea>
