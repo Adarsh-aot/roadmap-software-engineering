@@ -8,6 +8,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import RoadmapSection from "@/components/RoadmapSection";
 import ProgressBar from "@/components/ProgressBar";
 
+// Define the Topic type here
+type Topic = {
+  id: string;
+  title: string;
+  items: string[];
+};
+
 const monthlyTopics: Topic[] = [
   {
     id: "month1",
